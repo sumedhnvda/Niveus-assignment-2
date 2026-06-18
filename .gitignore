@@ -62,3 +62,6 @@ backend/firebase-adminsdk.json
 
 # Docker
 .dockerignore
+
+# Private Keys
+firebase_b64.txt
