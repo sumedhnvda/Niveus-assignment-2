@@ -12,7 +12,7 @@ from qdrant_client.models import (
     FieldCondition,
     MatchValue,
 )
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from app.config import get_settings
 import uuid
 import logging
@@ -37,10 +37,10 @@ def get_qdrant_client() -> QdrantClient:
     return _client
 
 
-def get_embeddings() -> HuggingFaceEmbeddings:
+def get_embeddings() -> FastEmbedEmbeddings:
     global _embeddings
     if _embeddings is None:
-        _embeddings = HuggingFaceEmbeddings(
+        _embeddings = FastEmbedEmbeddings(
             model_name="sentence-transformers/all-MiniLM-L6-v2",
         )
     return _embeddings
