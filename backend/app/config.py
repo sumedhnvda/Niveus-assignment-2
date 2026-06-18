@@ -6,11 +6,6 @@ class Settings(BaseSettings):
     APP_NAME: str = "Niveus Solutions"
     DEBUG: bool = True
 
-    # JWT
-    JWT_SECRET: str = "nevius-book-management-secret-key-2024"
-    JWT_ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours
-
     # MongoDB
     MONGODB_URL: str = "mongodb://localhost:27017"
     MONGODB_DB_NAME: str = "nevius_books"
