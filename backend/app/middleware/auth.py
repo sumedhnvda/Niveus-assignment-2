@@ -12,12 +12,20 @@ import json
 # Initialize Firebase Admin
 try:
     if not firebase_admin._apps:
-        firebase_env = os.environ.get("FIREBASE_ADMINSDK_JSON")
-        if firebase_env:
-            cred_dict = json.loads(firebase_env)
+        import base64
+        b64_env = os.environ.get("FIREBASE_ADMINSDK_BASE64")
+        json_env = os.environ.get("FIREBASE_ADMINSDK_JSON")
+        
+        if b64_env:
+            cred_dict = json.loads(base64.b64decode(b64_env).decode('utf-8'))
+            cred = credentials.Certificate(cred_dict)
+        elif json_env:
+            # Fix potential Vercel escaping issues
+            cred_dict = json.loads(json_env.replace('\\n', '\n'), strict=False)
             cred = credentials.Certificate(cred_dict)
         else:
             cred = credentials.Certificate("firebase-adminsdk.json")
+            
         firebase_admin.initialize_app(cred)
 except Exception as e:
     print(f"Warning: Firebase initialization failed. Ensure credentials are set: {e}")
