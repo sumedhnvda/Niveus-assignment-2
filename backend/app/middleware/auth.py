@@ -6,10 +6,18 @@ from app.models.user import User
 
 security = HTTPBearer()
 
+import os
+import json
+
 # Initialize Firebase Admin
 try:
     if not firebase_admin._apps:
-        cred = credentials.Certificate("firebase-adminsdk.json")
+        firebase_env = os.environ.get("FIREBASE_ADMINSDK_JSON")
+        if firebase_env:
+            cred_dict = json.loads(firebase_env)
+            cred = credentials.Certificate(cred_dict)
+        else:
+            cred = credentials.Certificate("firebase-adminsdk.json")
         firebase_admin.initialize_app(cred)
 except Exception as e:
     print(f"Warning: Firebase initialization failed. Ensure credentials are set: {e}")
