@@ -35,8 +35,10 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         uid = decoded_token.get("uid")
         email = decoded_token.get("email")
         if not uid or not email:
+            print("Auth error: Missing uid or email in decoded token")
             raise credentials_exception
     except Exception as e:
+        print(f"Auth verification failed! Detailed Error: {e}")
         raise credentials_exception
 
     user = await User.find_one(User.email == email)
